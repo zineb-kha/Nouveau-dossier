@@ -10,6 +10,7 @@ from django.http import FileResponse
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
+from django.contrib import messages
 
 def home(request):
     notifications_count = 0
@@ -18,21 +19,56 @@ def home(request):
 
     form = AffectationForm
     if(request.method=='POST'):
+        
+        # hna bnshof eza kan geh tlab asln 
         form=AffectationForm(request.POST)
+        form_data= (request.POST)
+
         if form.is_valid():
+            # hna bnshof eza kan el tlb da mfhosh mshakl we bnfz el mtlob kolo
             form.save()
-    
+            boitier=Boitiers.objects.get(id=form_data["Nom_Boitier"])
+            if boitier.is_taken==True:
+                messages.info(request, "boitier is taken")
+            boitier.is_taken=True
+            boitier.save()
+            véhicule=Véhicule.objects.get(id=form_data["Nom_Véhicule"])
+            if véhicule.is_taken==True:
+                messages.info(request, "véhicule is taken")
+            véhicule.is_taken=True
+            véhicule.save()
+            sim=Carte_SIM.objects.get(id=form_data["Nom_SIM"])
+            if sim.is_taken==True:
+                messages.info(request, "boitier is taken")
+            sim.is_taken=True
+            sim.save()
+        else:
+            # hna lw el kan el tlb da fe mshakl fa bnwd7 eh el mshakl de kolha 
+            boitier=Boitiers.objects.get(id=form_data["Nom_Boitier"])
+            if boitier.is_taken==True:
+                messages.info(request, "boitier is taken")
+            # hna shofna eza kan el moshkla fe boitier fa b3tna massege ll template t2ol en el boitier feha moshkla
+            véhicule=Véhicule.objects.get(id=form_data["Nom_Véhicule"])
+            if véhicule.is_taken==True:
+                messages.info(request, "véhicule is taken")
+            # hna shofna eza kan el moshkla fe véhicule fa b3tna massege ll template t2ol en el véhicule feha moshkla
+            
+            sim=Carte_SIM.objects.get(id=form_data["Nom_SIM"])
+            if sim.is_taken==True:
+                messages.info(request, "boitier is taken")
+            # hna shofna eza kan el moshkla fe sim fa b3tna massege ll template t2ol en el sim feha moshkla
+
     Version_form=VersionForm
     if(request.method=='POST'):
         Version_form=VersionForm(request.POST)
-        if form.is_valid():
-            form.save()
+        if Version_form.is_valid():
+            Version_form.save()
 
     Fournisseur_form=FournisseurForm
     if(request.method=='POST'):
         Fournisseur_form=FournisseurForm(request.POST)
-        if form.is_valid():
-            form.save()
+        if Fournisseur_form.is_valid():
+            Fournisseur_form.save()
 
     for version in versions:
         boitiers_count = Boitiers.objects.filter(is_taken=False , Version = version).count()
@@ -134,13 +170,19 @@ def export_excel(request):
 
     font_style= xlwt.XFStyle()
 
-    rows = Affectation.objects.all().values_list('Numéro_aff', 'Nom_Boitier', 
-    'Numéro_boitier', 'Numéro_IMEM', 'Nom_SIM', 'Numéro_SIM', 'Nom_Véhicule', 'Matricule')
+    rows = Affectation.objects.all()
+    aa=('', '', '', 'Matricule')
 
     for row in rows:
         row_num +=1
         for col_num in range(len(row)):
-            ws.write(row_num, col_num, row[col_num], font_style)
+            ws.write(row_num, row.Numéro_aff,row.Nom_Boitier,row.Nom_Boitierr.Numéro_boitier,
+            row.Nom_Boitierr.Numéro_IMEM,
+            row.Nom_SIM,
+            row.Nom_SIM.Numéro_SIM,
+            row.Nom_Véhicule,
+            row.Nom_Véhicule.Matricule,
+            row[col_num], font_style)
     
     wb.save(response)
     return response

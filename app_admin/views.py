@@ -44,6 +44,7 @@ def PdfBoitier(request):
 
     return FileResponse(buf, as_attachment=True, filename='boitier.pdf')
 
+
 def export_excel(request):
     response = HttpResponse(content_type='application/ms-excel')
     response['content-Disposition']= 'attachment; filename="AFFECTATION.xls"'
@@ -55,20 +56,32 @@ def export_excel(request):
     font_style = xlwt.XFStyle()
     font_style.font.bold=True
     columns = ['Numéro_aff', 'Nom_Boitier', 'Numéro_boitier', 'Numéro_IMEM', 'Nom_SIM', 'Numéro_SIM', 'Nom_Véhicule', 'Matricule']
-
     for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num], font_style)
 
     font_style= xlwt.XFStyle()
-
-    rows = Affectation.objects.all().values_list('Numéro_aff', 'Nom_Boitier.Nom', 'Nom_SIM_id',
-    'Nom_Véhicule')
+    file_data = []
+    rows = Affectation.objects.all()
 
     for row in rows:
         row_num +=1
-        for col_num in range(len(row)):
-            ws.write(row_num, col_num, row[col_num], font_style)
-    
+
+
+
+        file_data.append(row.Numéro_aff)                    
+        file_data.append(row.Nom_Boitier.Nom)               
+        file_data.append(row.Nom_Boitier.Numéro_boitier)    
+        file_data.append(row.Nom_Boitier.Numéro_IMEM)       
+        file_data.append(row.Nom_SIM.Nom)                   
+        file_data.append(row.Nom_SIM.Numéro_SIM)            
+        file_data.append(row.Nom_Véhicule.Nom)              
+        file_data.append(row.Nom_Véhicule.Matricule)        
+        x = 0 
+        for i in file_data:
+            ws.write(row_num, x, i, font_style)
+            x+=1
+        print (file_data)
+        file_data = []
     wb.save(response)
     return response
 
@@ -110,9 +123,13 @@ class UpdateBoitier(UpdateView):
      template_name ="app_admin/boitier_form.html"
      success_url='/my-admin/my-boitiers'
 
-class DeleteBoitier(DeleteView):
-    model = Boitiers
-    success_url = "/my-admin/my-boitiers"
+# class DeleteBoitier(DeleteView):
+#     model = Boitiers
+#     success_url = "/my-admin/my-boitiers"
+def delete_boitires(request,pk):
+    boitire = Boitiers.objects.get(id=pk)
+    boitire.delete()
+    return redirect('my-boitiers')
 
 # TABLE VERSION
 
@@ -209,18 +226,24 @@ def user_affectation(request):
 def add_affectation(request):
     form = AffectationForm()
     if request.method=="POST":
+        print 
         form = AffectationForm(request.POST)
         form_data= (request.POST)
         if form.is_valid():
             form.save()
             boitier=Boitiers.objects.get(id=form_data["Nom_Boitier"])
-            print (boitier)
+            if boitier.is_taken==True:
+                print ("boitier is taken")
             boitier.is_taken=True
             boitier.save()
             véhicule=Véhicule.objects.get(id=form_data["Nom_Véhicule"])
+            if véhicule.is_taken==True:
+                print ("véhicule is taken")
             véhicule.is_taken=True
             véhicule.save()
             sim=Carte_SIM.objects.get(id=form_data["Nom_SIM"])
+            if sim.is_taken==True:
+                print ("sim is taken")
             sim.is_taken=True
             sim.save()
             return redirect("my-affect")

@@ -7,7 +7,7 @@ urlpatterns=[
     path('my-boitiers',user_boitiers,name="my-boitiers"),
     path('ajouter-boitier',AddBoitier.as_view(),name="ajouter-boitier"),
     path('modifier-boitier/<int:pk>',UpdateBoitier.as_view(),name="modifier-boitier"),
-    path('supprimer-boitier/<int:pk>',DeleteBoitier.as_view(),name="supprimer-boitier"),
+    path('supprimer-boitier/<int:pk>',delete_boitires,name="supprimer-boitier"),
     path('pdf-boitier',PdfBoitier,name="pdf-boitier"),
 
 

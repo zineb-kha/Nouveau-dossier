@@ -52,7 +52,7 @@
                                         
                                         <a href="{% url 'modifier-boitier' boitier.pk %}" class="btn btn-info btn-sm"><i class="fas  fa-edit"></i></a>
 
-                                        <a href="{% url 'supprimer-boitier' boitier.pk %}" onclick="return confirm('Voulez-vous supprimer cet boitier ?')" class="btn btn-danger btn-sm"><i class="fas  fa-trash"></i></a>
+                                        <a href="/my-admin/supprimer-boitier/{{boitier.pk}}" onclick="return confirm('Voulez-vous supprimer cet boitier ?')" class="btn btn-danger btn-sm"><i class="fas  fa-trash"></i></a>
                                     </td>
                                 </tr>
                                 
