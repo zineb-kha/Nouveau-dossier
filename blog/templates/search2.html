@@ -1,0 +1,36 @@
+{% extends 'base.html'%}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Liste de recherche</h2>
+</br>
+     <div class="card">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="h6">Nom</th>
+                        <th class="h6">Numéro_boitier</th>
+                        <th class="h6">Numéro_IMEM</th>
+                        <th class="h6">Version</th>
+                        <th class="h6">Fournisseur</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for boitier in list_boitiers %}
+                    <tr>
+                        <td><a href=""  class="h6">{{boitier.Nom}}</a></td>
+                        <td><a href=""  class="h6">{{boitier.Numéro_boitier}}</a></td>
+                        <td><a href=""  class="h6">{{boitier.Numéro_IMEM}}</a></td>
+                        <td><a href=""  class="h6">{{boitier.Version}}</a></td>
+                        <td><a href=""  class="h6">{{boitier.Fournisseur}}</a></td>
+                        </tr>
+
+     {% endfor %}
+    </tbody>
+</table>
+</div>
+</div>
+</div>
+
+{% endblock %}

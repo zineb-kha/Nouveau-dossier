@@ -1,0 +1,78 @@
+{% extends 'basse.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12"><h2>Liste d'affectations</h2></div>
+            <div class="col-md-12" >
+            </div>
+        </br>
+    </br>
+            <form class="form-inline" action="{% url 'search' %}">
+                <div class="md-form my-0">
+                  <input class="form-control mr-sm-2" type="text" placeholder="Recherche" aria-label="Search" name="Affectation">
+                  <a href="{% url 'exel-affect' %}" class="btn btn-dark float-right"><i class="fas"></i> Excel </a>
+                </div>
+              </form>
+            </div>
+    </br>
+    </br>
+    </br>
+    </br>
+            {% if list_affectation %}
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="h6"> Numéro_aff </th>
+                                <th class="h6"> Nom_Boitier </th>
+                                <th class="h6">Numéro_boitier</th>
+                                <th class="h6">Numéro_IMEM</th>
+                                <th class="h6"> Nom_SIM </th>
+                                <th class="h6"> Numéro_SIM </th>
+                                <th class="h6"> Nom_Véhicule </th>
+                                <th class="h6"> Matricule </th>
+
+                                <th class="h6"> Action </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for affectation in list_affectation %}
+                            <tr>
+                            <td><a href="" class="h6">{{affectation.Numéro_aff}}</a></td>
+
+                            <td><a href="" class="h6">{{affectation.Nom_Boitier.Nom}}</a></td>
+                            
+                            <td><a href="" class="h6">{{affectation.Nom_Boitier.Numéro_boitier}}</a></td>
+
+                            <td><a href="" class="h6">{{affectation.Nom_Boitier.Numéro_IMEM}}</a></td>
+                            
+                            <td><a href="" class="h6">{{affectation.Nom_SIM.Nom}}</a></td>
+
+                            <td><a href="" class="h6">{{affectation.Nom_SIM.Numéro_SIM}}</a></td>
+
+                            <td><a href="" class="h6">{{affectation.Nom_Véhicule.Nom}}</a></td>
+
+                            <td><a href="" class="h6">{{affectation.Nom_Véhicule.Matricule}}</a></td>
+                            <td>
+                                <a href="{% url 'modifier-affect' affectation.pk %}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                                <a href="{% url 'supprimer-affect' affectation.pk %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                            </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% for véhicule in list_affectation %}
+            {% endfor %}
+            {% else %}
+            <h3>vous n'avez aucune affectation</h3>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

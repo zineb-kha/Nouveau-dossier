@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Mes Boitiers</h2>
+
+                <form class="form-inline float-right" action="{% url 'search2' %}">
+                    <div class="md-form my-0">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Recherche" aria-label="search2" name="Boitiers">
+                    </div>
+                </form>
+
+                </br>
+                </br> 
+                </br>
+                <div class="col-md-12">
+                    <a class="btn btn-dark float-right" data-toggle="modal" data-target="#addModal">
+                        <i class="fas fa-plus"></i> Ajouter </a>
+
+                    <a href="{% url 'pdf-boitier' %}" class="btn btn-dark float-left"><i class="fas"></i> PDF </a>
+                </div>
+            </br>
+            </br>
+            </br>
+            
+                {% if list_boitiers %}
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="h6">Nom</th>
+                                    <th class="h6">Numéro_boitier</th>
+                                    <th class="h6">Numéro_IMEM</th>
+                                    <th class="h6">Version</th>
+                                    <th class="h6">Fournisseur</th>
+                                    <th class="h6">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for boitier in list_boitiers %}
+                                <tr>
+                                    <td><a href=""  class="h6">{{boitier.Nom}}</a></td>
+                                    <td><a href=""  class="h6">{{boitier.Numéro_boitier}}</a></td>
+                                    <td><a href=""  class="h6">{{boitier.Numéro_IMEM}}</a></td>
+                                    <td><a href=""  class="h6">{{boitier.Version}}</a></td>
+                                    <td><a href=""  class="h6">{{boitier.Fournisseur}}</a></td>
+                                    <td>
+                                        
+                                        <a href="{% url 'modifier-boitier' boitier.pk %}" class="btn btn-info btn-sm"><i class="fas  fa-edit"></i></a>
+
+                                        <a href="{% url 'supprimer-boitier' boitier.pk %}" onclick="return confirm('Voulez-vous supprimer cet boitier ?')" class="btn btn-danger btn-sm"><i class="fas  fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                                
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            
+                {% else %}
+                <h3>vous n'avez aucune boitier</h3>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

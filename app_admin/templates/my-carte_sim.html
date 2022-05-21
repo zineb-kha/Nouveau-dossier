@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12"><h2 class="text-center">Les cartes_sim</h2></div>
+            <br/>    
+
+            <form class="form-inline float-right" action="{% url 'SearchCarte_sim' %}">
+                <div class="md-form my-0">
+                  <input class="form-control mr-sm-2" type="text" placeholder="Recherche" aria-label="search1" name="Carte_SIM">
+                </div>
+            </form>
+
+            <br>
+            </br>
+            </br>
+            <div class="col-md-12" >
+                <a class="btn btn-secondary float-right" data-toggle="modal" data-target="#addcarteModal"><i class="fas fa-plus"> Ajouter </i></a>
+            </div>
+    </br>
+    </br>
+    </br>
+            {% if list_carte_sim %}
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="h6"> Nom </th>
+                                <th class="h6"> Numéro_SIM </th>
+                                <th class="h6"> Opérateur </th>
+                                <th class="h6"> Action </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for carte_sim in list_carte_sim %}
+                            <tr>
+                            <td><a href="" class="h6">{{carte_sim.Nom}}</a></td>
+                            <td><a href="" class="h6">{{carte_sim.Numéro_SIM}}</a></td>
+                            <td><a href="" class="h6">{{carte_sim.Opérateur}}</a></td>
+                            <td>
+                                <a href="{% url 'modifier-carte_sim' carte_sim.pk %}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                                <a href="{% url 'supprimer-carte_sim' carte_sim.pk%}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                            </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% for carte_sim in list_carte_sim %}
+            {% endfor %}
+            {% else %}
+            <h3>vous n'avez aucune carte_sim</h3>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

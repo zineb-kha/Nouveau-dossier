@@ -1,0 +1,33 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+<div class="container mt-4">
+    <div class="col-md-12"><h2>Liste de recherche</h2></div>
+
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="h6"> Nom </th>
+                        <th class="h6"> Matricule </th>
+                        <th class="h6"> Designation </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for véhicule in list_véhicule %}
+                    <tr>
+                    <td><a href="" class="h6">{{véhicule.Nom}}</a></td>
+                    <td><a href="" class="h6">{{véhicule.Matricule}}</a></td>
+                    <td><a href="" class="h6">{{véhicule.Designation}}</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+
+
+{% endblock %}
